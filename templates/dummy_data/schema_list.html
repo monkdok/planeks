@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Schemas{% endblock %}
+
+{% block content %}
+    {% if request.user.is_authenticated %}
+        <a href="{% url 'dummy_data:create_schema' %}">
+            <button type="button" class="btn btn-primary mb-10">Create Schema</button>
+        </a>
+    {% if schemas %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for schema in schemas %}
+        <tr>
+            <th scope="row" style="width: 20%">{{ forloop.counter }}</th>
+            <td><a href="{% url 'dummy_data:detail_schema' schema.pk %}">{{ schema.name }}</a></td>
+            <td style="width: 20%">
+                <a href="{% url 'dummy_data:update_schema' schema.pk %}" class="text-decoration-none">Edit</a>
+                <a href="{% url 'dummy_data:delete' 'schema' schema.pk %}" class="text-decoration-none text-danger">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+{% endif %}
+{% endblock %}

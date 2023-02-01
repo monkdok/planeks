@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Schema{% endblock %}
+
+{% block content %}
+{% if schema %}
+<h4>{{ schema.name }}</h4>
+<div class="table-responsive mb-5">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Header</th>
+            <th scope="col">Data Type</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for column in schema.columns.all %}
+        <tr>
+            <th scope="row" style="width: 20%">{{ forloop.counter }}</th>
+            <td>{{ column.header }}</td>
+            <td>{{ column.get_datatype_display }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="row">
+    <div class="position-relative  mt-5">
+        <h4 class="position-absolute bottom-0 start-0" >Data Sets</h4>
+        <div class="position-absolute bottom-0 end-0">
+            <form action="{% url 'dummy_data:generate' schema.pk %}" method="POST" class="input-group"
+                  data-create-schema-url="{% url 'dummy_data:create_dataset' schema.pk %}" id="generate-form">{% csrf_token %}
+                <input type="number" name="rows_num" required class="form-control" placeholder="rows" aria-label="rows" aria-describedby="basic-addon2">
+                <button class="text-decoration-none input-group-text" id="basic-addon2">Generate</button>
+            </form>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <table class="table datasets">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Created</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for dataset in schema.datasets.all %}
+            <tr class="rows">
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ dataset.created_dt|date:"Y.m.d" }}</td>
+                <td>{% if dataset.is_ready %}<span class="badge text-bg-success">Ready</span>{% else %}<span class="badge text-bg-secondary">Processing</span>{% endif %}</td>
+                {% if dataset.file %}
+                <td><a href="{{dataset.file.url}}">Download</a></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+<script src="{% static 'site/js/dataset_generate_ajax.js' %}"></script>
+{% endblock js %}

@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Create Schema{% endblock %}
+
+{% block content %}
+<main>
+    <form method="POST" id="schema-form">
+        {% csrf_token %}
+        <div class="row g-5">
+            <div class="col-md-7 col-lg">
+                <h4 class="mb-3">CSV Dummy Data Generator</h4>
+                    <div class="row g-3">
+                        <div class="col-sm-6 mb-5">
+                            {{ form.as_p }}
+                        </div>
+
+                        {{ formset.management_form }}
+                        <h4>Schema columns</h4>
+                        <div class="container" id="columns-list">
+                            {% for form_data in formset %}
+                            {{ form_data.DELETE }}
+                            <div class="row item my-3 columns-form">
+                                {{ form_data.id }}
+                                <div class="col-sm-2">
+                                    {{ form_data.header.label_tag }}
+                                    {{ form_data.header }}
+                                    {{ form_data.errors }}
+                                </div>
+                                <div class="col-sm-2">
+                                    {{ form_data.datatype.label_tag }}
+                                    {{ form_data.datatype }}
+                                    {{ form_data.errors }}
+                                </div>
+                                <div class="col-sm-2 int_range" hidden>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            {{ form_data.from_int.label_tag }}
+                                            {{ form_data.from_int }}
+                                            {{ form_data.errors }}
+                                        </div>
+                                        <div class="col-sm-6">
+                                            {{ form_data.to_int.label_tag }}
+                                            {{ form_data.to_int }}
+                                            {{ form_data.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    {{ form_data.order.label_tag }}
+                                    {{ form_data.order }}
+                                </div>
+                                <div class="col-sm-2 position-relative">
+                                    <button type="button" class="btn btn-danger remove-form-row  position-absolute bottom-0 start"
+                                            id="{{ form_data.id.value }}">
+                                        Delete
+                                    </button>
+                                </div>
+
+                            </div>
+                            {% endfor %}
+
+                        </div>
+                        <div class="my-4" style="border-left: none!important; border-right: none !important; border-bottom: none!important;">
+                            <button type="button" class="btn btn-warning"
+                                    id="add-columns-form">
+                                Add
+                            </button>
+                        </div>
+                    </div>
+                    <hr class="my-4">
+                    <button class="w-100 btn btn-primary btn-lg" type="submit">Submit</button>
+            </div>
+        </div>
+    </form>
+</main>
+
+{% endblock %}
+{% block js %}
+{{ block.super }}
+<script type="text/javascript" src="{% static 'site/js/formset.js' %}"></script>
+{% endblock js %}
+
