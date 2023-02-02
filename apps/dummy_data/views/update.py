@@ -39,5 +39,6 @@ class SchemaUpdateView(LoginRequiredMixin, UpdateView):
             except IntegrityError as e:
                 raise IntegrityError(f"Error Encount`ered: {e}")
         else:
+            print(formset.errors)
             return self.get(request, {'form': form, 'formset': formset})
         return redirect(self.success_url)

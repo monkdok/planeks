@@ -13,6 +13,7 @@ function addNewForm(e) {
     const formTarget = document.getElementById('columns-list')
     let allInputs = copyColumnsForm.querySelectorAll(['input', 'select'])
     copyColumnsForm.setAttribute('id', `columns-form-${currentFormCount}`)
+
     allInputs.forEach(function(el) {
         el.value = ''
         var regex = new RegExp('(-\\d+-)');
@@ -25,10 +26,10 @@ function addNewForm(e) {
         copyDeleteCheckbox.setAttribute('id', newDeleteId)
         copyDeleteCheckbox.setAttribute('name', newDeleteName)
         if (el.getAttribute('name').includes('order'))  {
-            el.value = el.value + currentFormCount
+            el.value = el.value + (currentFormCount)
         };
     })
-    totalForms.setAttribute('value', currentFormCount)
+    totalForms.setAttribute('value', currentFormCount + 1)
     formTarget.append(copyColumnsForm)
     formTarget.insertBefore(copyDeleteCheckbox, copyColumnsForm)
 };
@@ -96,5 +97,4 @@ $('#columns-list').find('input:checkbox').each(function(index, elem) {
 })
 
 checkAllSelected()
-
 });
