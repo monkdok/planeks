@@ -24,24 +24,24 @@
                                 <div class="col-sm-2">
                                     {{ form_data.header.label_tag }}
                                     {{ form_data.header }}
-                                    {{ form_data.errors }}
+                                    {{ form_data.header.errors }}
                                 </div>
                                 <div class="col-sm-2">
                                     {{ form_data.datatype.label_tag }}
                                     {{ form_data.datatype }}
-                                    {{ form_data.errors }}
+                                    {{ form_data.datatype.errors }}
                                 </div>
                                 <div class="col-sm-2 int_range" hidden>
                                     <div class="row">
                                         <div class="col-sm-6">
                                             {{ form_data.from_int.label_tag }}
                                             {{ form_data.from_int }}
-                                            {{ form_data.errors }}
+                                            {{ form_data.from_int.errors }}
                                         </div>
                                         <div class="col-sm-6">
                                             {{ form_data.to_int.label_tag }}
                                             {{ form_data.to_int }}
-                                            {{ form_data.errors }}
+                                            {{ form_data.to_int.errors }}
                                         </div>
                                     </div>
                                 </div>
@@ -49,6 +49,7 @@
                                 <div class="col-sm-2">
                                     {{ form_data.order.label_tag }}
                                     {{ form_data.order }}
+                                    {{ form_data.order.errors }}
                                 </div>
                                 <div class="col-sm-2 position-relative">
                                     <button type="button" class="btn btn-danger remove-form-row  position-absolute bottom-0 start"
